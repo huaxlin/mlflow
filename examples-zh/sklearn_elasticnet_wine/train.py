@@ -32,7 +32,7 @@ if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     np.random.seed(40)
 
-    # Read the wine-quality csv file from the URL
+    # 从URL读取wine-quality csv文件
     csv_url = (
         "https://raw.githubusercontent.com/mlflow/mlflow/master/tests/data/winequality-red.csv"
     )
@@ -43,10 +43,10 @@ if __name__ == "__main__":
             "Unable to download training & test CSV, check your internet connection. Error: %s", e
         )
 
-    # Split the data into training and test sets. (0.75, 0.25) split.
+    # 划分数据为训练和测试数据集。(0.75, 0.25) 划分.
     train, test = train_test_split(data)
 
-    # The predicted column is "quality" which is a scalar from [3, 9]
+    # 预测列是"quality"，它是[3, 9]区间的标量
     train_x = train.drop(["quality"], axis=1)
     test_x = test.drop(["quality"], axis=1)
     train_y = train[["quality"]]
@@ -76,11 +76,10 @@ if __name__ == "__main__":
 
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
 
-        # Model registry does not work with file store
+        # 模型注册在文件存储的情况下不起作用
         if tracking_url_type_store != "file":
-            # Register the model
-            # There are other ways to use the Model Registry, which depends on the use case,
-            # please refer to the doc for more information:
+            # 注册模型
+            # 根据不同的用例，还有其它使用模型注册的方法，更多信息请参考以下文档：
             # https://mlflow.org/docs/latest/model-registry.html#api-workflow
             mlflow.sklearn.log_model(lr, "model", registered_model_name="ElasticnetWineModel")
         else:
